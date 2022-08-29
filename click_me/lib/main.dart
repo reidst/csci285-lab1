@@ -49,6 +49,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  bool _isCounterLocked = false;
 
   void _incrementCounter() {
     setState(() {
@@ -57,7 +58,13 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+      if (!_isCounterLocked) _counter++;
+    });
+  }
+  
+  void _toggleCounterLock() {
+    setState(() {
+      _isCounterLocked = !_isCounterLocked;
     });
   }
 
@@ -74,6 +81,13 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            onPressed: _toggleCounterLock,
+            tooltip: 'Lock buttons',
+            icon: _isCounterLocked ? const Icon(Icons.lock) : const Icon(Icons.lock_open_outlined),
+          )
+        ],
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
